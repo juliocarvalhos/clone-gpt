@@ -1,6 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
 <%= render @conversation %>
+<%= render 'messages/form', message: @message, cvid: @conversation.id %>
+
 
 <div>
   <%= link_to "Edit this conversation", edit_conversation_path(@conversation) %> |

@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_message, only: %i[ show edit update destroy ]
+  before_action :set_conversation, only: [:new, :create]
 
   # GET /messages or /messages.json
   def index
@@ -13,7 +14,7 @@ class MessagesController < ApplicationController
 
   # GET /messages/new
   def new
-    @message = Message.new
+    @message = @conversation.messages.build
   end
 
   # GET /messages/1/edit
@@ -22,10 +23,12 @@ class MessagesController < ApplicationController
 
   # POST /messages or /messages.json
   def create
-    @message = Message.new(message_params)
-
+    @conversation = Conversation.find(params[:conversation_id])
+    @message = @conversation.messages.build(message_params)
     respond_to do |format|
       if @message.save
+        @conversation.text = @message.text if @conversation.text == ""
+        @conversation.save
         format.html { redirect_to conversation_path(@message.conversation) }
         format.json { render :show, status: :created, location: @message }
       else
@@ -64,8 +67,12 @@ class MessagesController < ApplicationController
       @message = Message.find(params[:id])
     end
 
+  def set_conversation
+    @conversation = Conversation.find(params[:conversation_id])
+  end
+
     # Only allow a list of trusted parameters through.
     def message_params
-      params.require(:message).permit(:text, :conversation_id, :user_id)
+      params.require(:message).permit(:user_id, :text)
     end
 end

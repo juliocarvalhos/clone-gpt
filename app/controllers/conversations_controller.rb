@@ -17,7 +17,12 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/new
   def new
-    @conversation = Conversation.new
+    if Conversation.last.text != ""
+      @conversation = Conversation.create(text: "", user_id: current_user.id)
+      redirect_to conversation_path(@conversation)
+    else
+      redirect_to conversation_path(Conversation.last)
+    end
   end
 
   # GET /conversations/1/edit
@@ -30,7 +35,7 @@ class ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        format.html { redirect_to conversations_path}
+        format.html { redirect_to conversation_path(@conversation)}
         format.json { render :show, status: :created, location: @conversation }
       else
         format.html { render :new, status: :unprocessable_entity }

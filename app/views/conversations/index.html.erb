@@ -3,7 +3,7 @@
 <h1>Conversations</h1>
 
 <div id="conversations">
-  <% @conversations.each do |conversation| %>
+  <% current_user.conversations.each do |conversation| %>
     <%= render conversation %>
     <p>
       <%= link_to "Show this conversation", conversation %>

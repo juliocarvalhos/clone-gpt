@@ -17,7 +17,7 @@
   <p style="color: green"><%= notice %></p>
   <h1>Conversations</h1>
 
-  <%= render "form", conversation: Conversation.new, url: new_conversation_path %>
+  <%= link_to "Nova conversa", new_conversation_path %>
 
   <div id="conversations">
     <% current_user.conversations.each do |conversation| %>

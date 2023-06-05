@@ -5,8 +5,9 @@
   </p>
 
   <p>
-    <strong>User:</strong>
-    <%= conversation.user_id %>
+    <% conversation.messages.each do |message| %>
+      <%= message.text %><br>
+    <% end %>
   </p>
 
 </div>

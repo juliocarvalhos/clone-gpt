@@ -2,6 +2,8 @@ class ConversationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_conversation, only: %i[ show edit update destroy ]
 
+  layout 'sidebar_layout'
+
   # GET /conversations or /conversations.json
   def index
     @conversations = Conversation.all
@@ -26,7 +28,7 @@ class ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        format.html { redirect_to conversation_url(@conversation), notice: "Conversation was successfully created." }
+        format.html { redirect_to conversations_path}
         format.json { render :show, status: :created, location: @conversation }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -8,5 +8,7 @@ Rails.application.routes.draw do
   resources :conversations do
     resources :messages, only: [:create, :new]
   end
+  root "conversations#new"
 
 end
+

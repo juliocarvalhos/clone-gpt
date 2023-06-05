@@ -6,7 +6,7 @@ class ConversationsController < ApplicationController
 
   # GET /conversations or /conversations.json
   def index
-    @conversations = Conversation.all
+    redirect_to new_conversation_path
   end
 
   # GET /conversations/1 or /conversations/1.json
@@ -17,7 +17,8 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/new
   def new
-    if Conversation.last.text != ""
+
+    if Conversation.count == 0 or Conversation.last.text != ""
       @conversation = Conversation.create(text: "", user_id: current_user.id)
       redirect_to conversation_path(@conversation)
     else

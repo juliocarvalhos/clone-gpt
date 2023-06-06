@@ -2,8 +2,6 @@ class ConversationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_conversation, only: %i[ show edit update destroy ]
 
-  layout 'sidebar_layout'
-
   # GET /conversations or /conversations.json
   def index
     redirect_to new_conversation_path

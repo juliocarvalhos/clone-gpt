@@ -1,9 +1,33 @@
-<h1><%= @conversation.text %></h1>
+<%= stylesheet_link_tag 'chat', media: 'all'%>
+<section class="sidebar">
 
-<% @conversation.messages.each do |m| %>
-  <p><%= m.text %></p>
-<% end %>
+  <%= link_to "Nova conversa", new_conversation_path, class: "button" %>
 
-<%= render 'messages/new' %>
+  <section class="history">
+    <% current_user.conversations.each do |conversation| %>
+      <% if conversation.text != "" %>
+        <%= link_to conversation.text, conversation, class: "button" %>
+      <% end %>
+    <% end %>
+  </section>
+
+  <%= link_to "logoff", destroy_user_session_path, method: :delete, class: "button" %>
+</section>
+
+<section class="content">
+  <section class="messages">
+    <% @conversation.messages.each do |message| %>
+      <p><%= message.text %></p>
+    <% end %>
+  </section>
+
+  <%= render 'new' %>
+</section>
+
+
+
+
+
+
 
 

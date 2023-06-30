@@ -17,11 +17,14 @@
 <section class="content">
   <section class="messages">
     <% @conversation.messages.each do |message| %>
-      <p><%= message.text %></p>
+      <p class="message-text"><%= message.text %></p>
+      <% if message.response %>
+        <p class="response-text"><%= message.response.text %></p>
+      <% end %>
     <% end %>
   </section>
 
-  <%= render 'new' %>
+  <%= render 'input' %>
 </section>
 
 

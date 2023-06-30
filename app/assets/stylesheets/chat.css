@@ -20,13 +20,17 @@ body {
     height: 100vh;
 }
 
-.button{
+.button {
     background-color: transparent;
-    border: solid 0.5px rgba(225, 225, 225, 0.5);
+    border: none;
     border-radius: 5px;
     margin: 10px;
     padding: 10px;
     text-decoration: none;
+}
+
+.button :hover {
+    background-color: #ffffff;
 }
 
 .history {
@@ -47,7 +51,17 @@ body {
 }
 
 .messages {
+    width: 100%;
+    text-align: left;
+}
+.message-text {
+    padding-left: 17%;
+}
 
+.response-text {
+    background-color: rgb(68,70,84);
+    padding: 10px 0;
+    padding-left: 17%;
 }
 
 .input:focus {

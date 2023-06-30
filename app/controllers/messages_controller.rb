@@ -8,17 +8,9 @@ class MessagesController < ApplicationController
     @messages = Message.all
   end
 
-  # GET /messages/1 or /messages/1.json
-  def show
-  end
-
   # GET /messages/new
   def new
     @message = @conversation.messages.build
-  end
-
-  # GET /messages/1/edit
-  def edit
   end
 
   # POST /messages or /messages.json
@@ -26,11 +18,16 @@ class MessagesController < ApplicationController
     @conversation = Conversation.find(params[:conversation_id])
     @message = @conversation.messages.build(message_params)
     respond_to do |format|
+
       if @message.save
         @conversation.text = @message.text if @conversation.text == ""
         @conversation.save
+        response_text = generate_response(@message.text)
+        @response = @message.build_response(text: response_text)
+        @response.save
         format.html { redirect_to conversation_path(@message.conversation) }
         format.json { render :show, status: :created, location: @message }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
@@ -75,4 +72,13 @@ class MessagesController < ApplicationController
     def message_params
       params.require(:message).permit(:user_id, :text)
     end
+
+  def generate_response(prompt)
+    api_key = "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"
+    engine = "text-davinci-003"
+
+    openai_client = OpenAI::Client.new(api_key: api_key, default_engine: engine)
+    response = openai_client.completions(prompt: prompt, max_tokens: 1000, engine: engine)
+    text = response.choices[0].text
+  end
 end
